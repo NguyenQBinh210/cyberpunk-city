@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Cyberpunk City Generator - Tạo thành phố cyberpunk ngẫu nhiên với tòa nhà neon, xe bay, mưa và hiệu ứng ánh sáng">
+    <title>🏙️ Cyberpunk City Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id="city-canvas"></canvas>
+    <div id="scanlines"></div>
+    <div id="vignette"></div>
+
+    <header id="header">
+        <div class="header-glitch" data-text="CYBERPUNK CITY">CYBERPUNK CITY</div>
+        <div class="header-subtitle">// PROCEDURAL GENERATOR v2.077</div>
+    </header>
+
+    <div id="controls">
+        <button id="btn-regenerate" class="btn-primary" title="Tạo thành phố mới (Space)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6" />
+                <path d="M1 20v-6h6" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+            <span>GENERATE</span>
+        </button>
+        <div class="divider"></div>
+        <button id="btn-rain" class="btn-toggle active" title="Bật/tắt mưa">
+            <span class="btn-icon">🌧️</span><span class="btn-label">RAIN</span>
+        </button>
+        <button id="btn-cars" class="btn-toggle active" title="Bật/tắt xe bay">
+            <span class="btn-icon">🚀</span><span class="btn-label">VEHICLES</span>
+        </button>
+        <button id="btn-reflections" class="btn-toggle active" title="Bật/tắt phản chiếu">
+            <span class="btn-icon">🪞</span><span class="btn-label">REFLECT</span>
+        </button>
+        <div class="divider"></div>
+        <button id="btn-screenshot" title="Chụp ảnh màn hình">
+            <span class="btn-icon">📸</span><span class="btn-label">CAPTURE</span>
+        </button>
+    </div>
+
+    <div id="stats">
+        <div class="stat"><span class="stat-label">BLDG</span><span class="stat-value" id="stat-buildings">0</span>
+        </div>
+        <div class="stat"><span class="stat-label">NEON</span><span class="stat-value" id="stat-signs">0</span></div>
+        <div class="stat"><span class="stat-label">CARS</span><span class="stat-value" id="stat-cars">0</span></div>
+    </div>
+
+    <div id="instruction">
+        <kbd>SPACE</kbd> Tạo thành phố mới &nbsp;·&nbsp; Mỗi lần là một thành phố duy nhất
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

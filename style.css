@@ -1,0 +1,409 @@
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: #000;
+    font-family: 'Share Tech Mono', 'Orbitron', monospace;
+    color: #fff;
+    cursor: crosshair;
+    user-select: none;
+}
+
+/* ===== Canvas ===== */
+#city-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+/* ===== Scanline Overlay ===== */
+#scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 10;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 4px);
+    animation: scanlineMove 8s linear infinite;
+}
+
+@keyframes scanlineMove {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100px;
+    }
+}
+
+/* ===== Vignette ===== */
+#vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 11;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+/* ===== Header ===== */
+#header {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.header-glitch {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-shadow:
+        0 0 10px rgba(255, 0, 110, 0.8),
+        0 0 30px rgba(255, 0, 110, 0.4),
+        0 0 60px rgba(255, 0, 110, 0.2);
+    position: relative;
+}
+
+.header-glitch::before,
+.header-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.header-glitch::before {
+    color: #00f5ff;
+    animation: glitch1 3s infinite linear;
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+}
+
+.header-glitch::after {
+    color: #ff006e;
+    animation: glitch2 2.5s infinite linear;
+    clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch1 {
+
+    0%,
+    90%,
+    100% {
+        transform: translate(0);
+        opacity: 0;
+    }
+
+    91% {
+        transform: translate(-3px, 1px);
+        opacity: 0.8;
+    }
+
+    93% {
+        transform: translate(2px, -1px);
+        opacity: 0.6;
+    }
+
+    95% {
+        transform: translate(-1px, 2px);
+        opacity: 0.8;
+    }
+
+    97% {
+        transform: translate(3px, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes glitch2 {
+
+    0%,
+    85%,
+    100% {
+        transform: translate(0);
+        opacity: 0;
+    }
+
+    86% {
+        transform: translate(2px, -1px);
+        opacity: 0.7;
+    }
+
+    88% {
+        transform: translate(-3px, 1px);
+        opacity: 0.5;
+    }
+
+    91% {
+        transform: translate(1px, -2px);
+        opacity: 0.7;
+    }
+
+    94% {
+        transform: translate(-2px, 0);
+        opacity: 0;
+    }
+}
+
+.header-subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+    color: #00f5ff;
+    letter-spacing: 0.3em;
+    margin-top: 6px;
+    opacity: 0.7;
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+}
+
+/* ===== Controls Panel ===== */
+#controls {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 20;
+    background: rgba(8, 8, 30, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 245, 255, 0.15);
+    border-radius: 14px;
+    padding: 8px 14px;
+    box-shadow:
+        0 0 20px rgba(0, 245, 255, 0.05),
+        inset 0 0 20px rgba(0, 245, 255, 0.02);
+}
+
+#controls button {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+#controls button:hover {
+    background: rgba(0, 245, 255, 0.1);
+    border-color: rgba(0, 245, 255, 0.3);
+    color: #00f5ff;
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.15);
+}
+
+#controls button.active {
+    color: #00f5ff;
+    border-color: rgba(0, 245, 255, 0.3);
+    background: rgba(0, 245, 255, 0.08);
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
+}
+
+#controls .btn-primary {
+    background: rgba(255, 0, 110, 0.15);
+    border-color: rgba(255, 0, 110, 0.4);
+    color: #ff006e;
+    text-shadow: 0 0 8px rgba(255, 0, 110, 0.5);
+}
+
+#controls .btn-primary:hover {
+    background: rgba(255, 0, 110, 0.25);
+    border-color: rgba(255, 0, 110, 0.6);
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.2);
+    color: #ff4d94;
+}
+
+#controls .btn-icon {
+    font-size: 0.85rem;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 4px;
+}
+
+/* ===== Stats Panel ===== */
+#stats {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(8, 8, 30, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 16px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.15em;
+}
+
+.stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #00f5ff;
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+}
+
+/* ===== Instruction ===== */
+#instruction {
+    position: fixed;
+    bottom: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+    text-align: center;
+    pointer-events: none;
+    animation: fadeInInstruction 2s ease 1s both;
+}
+
+#instruction kbd {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.6rem;
+    color: #ff006e;
+    margin: 0 2px;
+}
+
+@keyframes fadeInInstruction {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* ===== Flash Effect ===== */
+.flash-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(200, 200, 255, 0.15);
+    pointer-events: none;
+    z-index: 15;
+    animation: flashFade 0.4s ease-out forwards;
+}
+
+@keyframes flashFade {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    #controls {
+        bottom: 16px;
+        padding: 6px 10px;
+        gap: 4px;
+        border-radius: 10px;
+    }
+
+    #controls button {
+        padding: 6px 8px;
+        font-size: 0.5rem;
+    }
+
+    .btn-label {
+        display: none;
+    }
+
+    #stats {
+        top: auto;
+        bottom: 75px;
+        right: 12px;
+        padding: 8px 12px;
+    }
+
+    #instruction {
+        bottom: 65px;
+        font-size: 0.6rem;
+    }
+
+    #header {
+        top: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    #controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 90vw;
+    }
+
+    .divider {
+        display: none;
+    }
+}
